@@ -1,3 +1,9 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
 // Books for bookstore API
 let books = [
     {
@@ -24,6 +30,10 @@ let books = [
     // Add more books if you'd like!
 ];
 
+app.listen(port, () => {
+    console.log(`Movie API server running at http://localhost:${port}`);
+});
+
 /* Create your REST API here with the following endpoints:
     'GET /api/books': 'Get all books',
     'GET /api/books/:id': 'Get a specific book',
@@ -32,11 +42,41 @@ let books = [
     'DELETE /api/books/:id': 'Delete a book'
 */
 
+// GET all books/specific books
+app.get('/', (req, res) => {
+    res.json({ 
+        message: "Welcome to the Books API", 
+        endpoints: { 
+            "GET /books": "Get all books", 
+            "GET /books/:id": "Get a specific book by ID" 
+        } 
+    }); 
+});
+
+app.get('/books', (req, res) => {
+      res.json(books);
+});
+
+app.get('/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const book = books.find(b => b.id === bookId);
+  
+    if (book) {
+        res.json(book);
+    } else {
+        res.status(404).json({ error: 'Book not found' });
+    }
+});
+
+// POST books
 
 
 
+// PUT books
 
 
+
+// DELETE books
 
 
 
