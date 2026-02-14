@@ -69,15 +69,60 @@ app.get('/books/:id', (req, res) => {
 });
 
 // POST books
-
+app.post('/books', (req, res) => {
+    const { title, author, genre, copiesAvailable } = req.body;
+  
+    const newBook = {
+        id: books.length + 1,
+        title,
+        author,
+        genre,
+        copiesAvailable
+    };
+  
+    books.push(newBook);
+  
+    res.status(201).json(newBook);
+});
 
 
 // PUT books
-
+app.put('/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+    const { title, author, genre, copiesAvailable } = req.body;
+  
+    const bookIndex = books.findIndex(b => b.id === bookId);
+  
+    if (bookIndex === -1) {
+          return res.status(404).json({ error: 'Book not found' });
+    }
+  
+    books[bookIndex] = {
+        id: bookId,
+        title,
+        author,
+        genre,
+        copiesAvailable
+    };
+  
+    res.json(books[bookIndex]);
+});
 
 
 // DELETE books
-
+app.delete('/books/:id', (req, res) => {
+    const bookId = parseInt(req.params.id);
+  
+    const bookIndex = books.findIndex(b => b.id === bookId);
+  
+    if (bookIndex === -1) {
+        return res.status(404).json({ error: 'Book not found' });
+    }
+  
+    const deletedBook = books.splice(bookIndex, 1)[0];
+  
+    res.json({ message: 'Book deleted successfully', book: deletedBook });
+});
 
 
 
