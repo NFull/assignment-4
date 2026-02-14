@@ -125,5 +125,13 @@ app.delete('/books/:id', (req, res) => {
 });
 
 
+if (require.main === module) {
+    app.listen(port, () => {
+         console.log(`API server running at http://localhost:${port}`);
+    });
+}
+
+module.exports = app;
+
 
 
